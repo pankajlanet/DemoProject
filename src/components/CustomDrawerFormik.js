@@ -7,42 +7,42 @@ import {
   IconButton,
   Radio,
   RadioGroup,
+  Snackbar,
   TextField,
   Typography,
 } from "@material-ui/core";
 // import CloseIcon from '@mui/icons-material/Close';
 import CloseIcon from "@material-ui/icons/Close";
-import { useSelector ,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import actions from "../actions/userActions";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-
+import {nanoid} from 'nanoid'
 function CustomDrawerFormik(props) {
+  const editButtonUser = useSelector(
+    (state) => state.userReducer.editButtonData
+  );
+  const editButton = useSelector((state) => state.userReducer.editButton);
 
-    const editButtonUser = useSelector(
-      (state) => state.userReducer.editButtonData
-    );
-    const editButton = useSelector((state) => state.userReducer.editButton);
+  const initialState = editButton ? {
+    firstName: editButtonUser.firstName,
+    lastName: editButtonUser.lastName,
+    email: editButtonUser.email,
+    gender: editButtonUser.gender,
+    phoneNumber: editButtonUser.phoneNumber,
+  } : {
+    firstName: "",
+    lastName: "",
+    email: "",
+    gender: "",
+    phoneNumber: "",
+  }
 
-    const initialState =  editButton? {
-        firstName: editButtonUser.firstName,
-        lastName: editButtonUser.lastName,
-        email: editButtonUser.email,
-        gender: editButtonUser.gender,
-        phoneNumber: editButtonUser.phoneNumber,
-      }: {
-        firstName: "",
-        lastName: "",
-        email: "",
-        gender: "",
-        phoneNumber: "",
-      }
-
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const validate = Yup.object({
     firstName: Yup.string().max(15, "Must be less than 15 character"),
     lastName: Yup.string().max(15, "Must be less than 15 character"),
-    email: Yup.string().email() ,
+    email: Yup.string().email(),
     phoneNumber: Yup.number()
     // firstName : Yup.string().max( 15 , "Must be less than 15 character"),
   });
@@ -70,19 +70,22 @@ function CustomDrawerFormik(props) {
           initialValues={initialState}
           validationSchema={validate}
 
-        //   Sumbit Handler
+          //   Sumbit Handler
           onSubmit={(data, { isSumbitting }) => {
-            dispatch(
-                actions.AddUser({
-                  firstName: data.firstName,
-                  lastName: data.lastName,
-                  gender: data.gender,
-                  email: data.email,
-                  phoneNumber : data.phoneNumber
-                })
-              );
+             editButton?
+              dispatch(actions.updateUser({...data , id : editButtonUser.id}))
+             :  dispatch(
+              actions.AddUser({
+                id : nanoid(),
+                firstName: data.firstName,
+                lastName: data.lastName,
+                gender: data.gender,
+                email: data.email,
+                phoneNumber: data.phoneNumber
+              })
+            );
 
-              drawerCloseHandler()
+            drawerCloseHandler()
           }}
         >
           {({
@@ -95,8 +98,8 @@ function CustomDrawerFormik(props) {
             isValid,
           }) => (
             <div className="flex flex-col mt-4">
-              <div className="flex flex-row  mb-4">
-                <Form  autoComplete='off' onSubmit={handleSubmit}>
+              <Form autoComplete='off' onSubmit={handleSubmit}>
+                <div className='flex flex-row m-2'>
                   <div className="mr-2">
                     <TextField
                       error={errors.firstName}
@@ -126,7 +129,10 @@ function CustomDrawerFormik(props) {
                       onBlur={handleBlur}
                     />
                   </div>
-                  <div className="m-2">
+                </div>
+
+                <div className='flex flex-row m-2'>
+                  <div className=" mr-2">
                     <TextField
                       error={errors.email}
                       label="Email"
@@ -142,6 +148,7 @@ function CustomDrawerFormik(props) {
                   </div>
                   <div>
                     <TextField
+                      className='m-2'
                       error={errors.phoneNumber}
                       label="Phone Number"
                       required
@@ -154,47 +161,58 @@ function CustomDrawerFormik(props) {
                       onBlur={handleBlur}
                     />
                   </div>
-                  <div>
-                    <FormLabel required component="legend">
-                      Gender
-                    </FormLabel>
-                    <RadioGroup
-                      name="gender"
-                      value={values.gender}
-                      onChange={handleChange}
-                      row
-                      aria-label="gender"
-                    >
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Female"
-                      />
-                      <FormControlLabel
-                        value="male"
-                        control={<Radio />}
-                        label="Male"
-                      />
-                      <FormControlLabel
-                        value="other"
-                        control={<Radio />}
-                        label="Other"
-                      />
-                    </RadioGroup>
-                  </div>
 
-                  <Button
-                        
-                    disabled={!isValid}
-                    variant="outlined"
-                    color="primary"
-                    type="sumbit"
+                </div>
+
+                <div className = 'flex flex-row mt-3 m-2'>
+                <div >
+                  <FormLabel component="legend">
+                    Gender
+                  </FormLabel>
+                  <RadioGroup
+                  
+                    required
+                    name="gender"
+                    value={values.gender}
+                    onChange={handleChange}
+                    row
+                    aria-label="gender"
                   >
+                    <FormControlLabel
+                      value="female"
+                      control={<Radio />}
+                      label="Female"
+                    />
+                    <FormControlLabel
+                      value="male"
+                      control={<Radio />}
+                      label="Male"
+                    />
+                    <FormControlLabel
+                      value="other"
+                      control={<Radio />}
+                      label="Other"
+                    />
+                  </RadioGroup>
+                </div>
+                </div>
 
-                    {editButton ? "Update" : "Sumbit"}
-                  </Button>
-                </Form>
-              </div>
+                <div className = ' flex flex-col items-center justify-end'>
+                  <div className = 'h-32 w-2'></div>
+                  <div className = 'h-32 w-2'></div>
+                <Button
+                  disabled={!isValid}
+                  variant="outlined"
+                  color="primary"
+                  type="sumbit"
+                >
+
+                 
+                  {editButton ? "Update" : "Sumbit"}
+                </Button>
+                </div>
+              </Form>
+
             </div>
           )}
         </Formik>

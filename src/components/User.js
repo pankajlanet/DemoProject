@@ -1,4 +1,4 @@
-import { Avatar, IconButton, Paper, Typography } from "@material-ui/core";
+import { Avatar, IconButton, Paper, Snackbar, Typography } from "@material-ui/core";
 import React from "react";
 import { useSelector } from "react-redux";
 import EditIcon from "@mui/icons-material/Edit";
@@ -87,7 +87,7 @@ function User() {
                                         </IconButton>
                                         <IconButton
                                             onClick={() => {
-                                                dispatch(actions.openDialogBox(val));
+                                                dispatch(actions.deleteUser(val));
                                             }}
                                         >
                                             <DeleteForeverSharpIcon/>
@@ -99,7 +99,16 @@ function User() {
                     );
                 })}
             </div>
+
             <DialogBoxCustom />
+            
+            <div className = 'absolute left-0 bottom-0'>
+            <Snackbar
+                open={true}
+                autoHideDuration = {2000}
+                message =   "User info Updated"
+            />
+            </div>
         </>
     );
 }

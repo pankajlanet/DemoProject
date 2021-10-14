@@ -29,20 +29,19 @@ function CustomDrawer(props) {
   const [phoneNumber, setPhoneNumber] = useState("");
 
 
-  console.log(  "edit button status",editButton)
-  console.log("edit user " , editButtonUser)
+  console.log("edit button status", editButton)
+  console.log("edit user ", editButtonUser)
 
-  useEffect(()=>{
-      if(editButton)
-      {
-          setFirstName(editButtonUser.firstName)
-          setLastName(editButtonUser.lastName);
-          setEmail(editButtonUser.email)
-          setGender(editButtonUser.gender.toLowerCase());
-          setPhoneNumber(editButtonUser.phoneNumber)
-      }
+  useEffect(() => {
+    if (editButton) {
+      setFirstName(editButtonUser.firstName)
+      setLastName(editButtonUser.lastName);
+      setEmail(editButtonUser.email)
+      setGender(editButtonUser.gender.toLowerCase());
+      setPhoneNumber(editButtonUser.phoneNumber)
+    }
 
-  },[editButtonUser])
+  }, [editButtonUser])
 
   //is touched
 
@@ -136,113 +135,113 @@ function CustomDrawer(props) {
   return (
 
     <Drawer
-    
+
       onClose={drawerCloseHandler}
       anchor={"right"}
       elevation={3}
       open={props.open}
     >
-        <div className="p-4">
-      <div className="flex flex-row justify-between items-center border-b border-gray-300">
-        <Typography>Add User</Typography>
-        <IconButton onClick={drawerCloseHandler}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      </div>
+      <div className="p-4">
+        <div className="flex flex-row justify-between items-center border-b border-gray-300">
+          <Typography>Add User</Typography>
+          <IconButton onClick={drawerCloseHandler}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </div>
 
-      <div className="flex flex-col mt-4">
-        <div className="flex flex-row mb-4">
+        <div className="flex flex-col mt-4">
+          <div className="flex flex-row mb-4">
             <div className="mr-2">
-          <TextField
-            required
-            error={isfirstNameTouched && firstName.length === 0}
-            value={firstName}
-            onChange={firstNameChangeHandler}
-            className=" m-2 "
-            size="small"
-            variant="outlined"
-            color="primary"
-            label="First Name"
-          />
+              <TextField
+                required
+                error={isfirstNameTouched && firstName.length === 0}
+                value={firstName}
+                onChange={firstNameChangeHandler}
+                className=" m-2 "
+                size="small"
+                variant="outlined"
+                color="primary"
+                label="First Name"
+              />
+            </div>
+            <div className="">
+              <TextField
+                required
+                error={isLastNameTouched && lastName.length === 0}
+                value={lastName}
+                onChange={lastNameChangeHandler}
+                on
+                size="small"
+                variant="outlined"
+                color="primary"
+                label="Last Name"
+              />
+            </div>
           </div>
-          <div className="">
-          <TextField
-            required
-            error={isLastNameTouched && lastName.length === 0}
-            value={lastName}
-            onChange={lastNameChangeHandler}
-            on
-            size="small"
-            variant="outlined"
-            color="primary"
-            label="Last Name"
-          />
+          <div className="flex flex-row mb-4" >
+            <div className="mr-2">
+              <TextField
+                error={emailError}
+                value={email}
+                onChange={emailChangeHandler}
+                type="email"
+                size="small"
+                variant="outlined"
+                color="primary"
+                label="Email"
+              />
+            </div>
+            <div className="">
+              <TextField
+
+                onChange={phoneNumberOnChangeHandler}
+                size="small"
+                variant="outlined"
+                color="primary"
+                label="Phone Number"
+                required
+                value={phoneNumber}
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-row mb-4" >
-        <div className="mr-2">
-          <TextField
-            error={emailError}
-            value={email}
-            onChange={emailChangeHandler}
-            type="email"
-            size="small"
-            variant="outlined"
-            color="primary"
-            label="Email"
-          />
+          <div className="flex flex-row mb-4">
+            <div>
+              <FormLabel required component="legend">
+                Gender
+              </FormLabel>
+              <RadioGroup
+                value={gender}
+                onChange={genderHanlder}
+                row
+                aria-label="gender"
+                name="gender1"
+              >
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+                <FormControlLabel value="male" control={<Radio />} label="Male" />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </RadioGroup>
+            </div>
           </div>
-          <div className="">
-          <TextField
-          
-            onChange={phoneNumberOnChangeHandler}
-            size="small"
-            variant="outlined"
-            color="primary"
-            label="Phone Number"
-            required
-            value={phoneNumber}
-          />
-          </div>
-        </div>
-        <div className="flex flex-row mb-4">
-          <div>
-            <FormLabel required component="legend">
-              Gender
-            </FormLabel>
-            <RadioGroup
-              value={gender}
-              onChange={genderHanlder}
-              row
-              aria-label="gender"
-              name="gender1"
+          <div className="flex flex-row mb-4 justify-center">
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={sumbitFormHandler}
             >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="other"
-                control={<Radio />}
-                label="Other"
-              />
-            </RadioGroup>
+              {" "}
+              Sumbit
+            </Button>
           </div>
-        </div>
-        <div className="flex flex-row mb-4 justify-center">
-          <Button
-            variant="outlined"
-            color="primary"
-            onClick={sumbitFormHandler}
-          >
-            {" "}
-            Sumbit
-          </Button>
         </div>
       </div>
-    </div>
     </Drawer>
   );
 }

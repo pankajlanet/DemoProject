@@ -48,6 +48,23 @@ const onEditClose = () =>
      type : "EDIT_BUTTON_CLOSED"
    } 
 }
+
+const updateUser = (data)=> {
+    return {
+      type : "UPDATE_USER",
+      payload : data
+    }
+}
+
+const deleteUser = (data) =>
+{
+
+  return {
+    type : "DELETE_USER",
+    payload : data
+  }
+}
+
 const actions = {
   toggleDrawer,
   openDrawer,
@@ -56,7 +73,9 @@ const actions = {
   openDialogBox,
   closeDialogBox,
   onEditClicked,
-  onEditClose
+  onEditClose,
+  updateUser,
+  deleteUser
 };
 
 export default actions;
