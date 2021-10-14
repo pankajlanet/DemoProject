@@ -36,7 +36,12 @@ const userReducer = (state = initialState, action) => {
     return { ...state, isDialogOpen: false };
   } else if (action.type === "EDIT_BUTTON_CLICKED") {
     return { ...state, editButton: true, editButtonData: action.payload };
-  } else {
+  }
+  else if (action.type === "EDIT_BUTTON_CLOSED")
+  {
+    return {...state , editButton : false}
+  }
+  else {
     return state;
   }
 };

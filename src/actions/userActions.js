@@ -42,6 +42,12 @@ const closeDialogBox = () => {
   };
 };
 
+const onEditClose = () =>
+{
+   return{
+     type : "EDIT_BUTTON_CLOSED"
+   } 
+}
 const actions = {
   toggleDrawer,
   openDrawer,
@@ -50,6 +56,7 @@ const actions = {
   openDialogBox,
   closeDialogBox,
   onEditClicked,
+  onEditClose
 };
 
 export default actions;

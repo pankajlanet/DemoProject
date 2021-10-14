@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 // import Icon from '@mui/material/Icon'
 import Icon from '@material-ui/core/Icon'
 import { Email } from "@material-ui/icons";
+import DeleteForeverSharpIcon from '@mui/icons-material/DeleteForeverSharp';
 
 
 // import EditIcon from '@material-ui/icons/icons'
@@ -83,6 +84,13 @@ function User() {
                                             }}
                                         >
                                             <PreviewIcon />
+                                        </IconButton>
+                                        <IconButton
+                                            onClick={() => {
+                                                dispatch(actions.openDialogBox(val));
+                                            }}
+                                        >
+                                            <DeleteForeverSharpIcon/>
                                         </IconButton>
                                     </div>
                                 </div>
