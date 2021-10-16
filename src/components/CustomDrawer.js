@@ -11,16 +11,15 @@ import {
 } from "@material-ui/core";
 // import CloseIcon from '@mui/icons-material/Close';
 import CloseIcon from "@material-ui/icons/Close";
-import { useSelector, useDispatch } from "react-redux";
+// import { useSelector, useDispatch } from "react-redux";
 import actions from "../actions/userActions";
 import { TextField } from "@mui/material";
 import validator from "validator";
+import { connect } from "formik";
 
 function CustomDrawer(props) {
-  const editButtonUser = useSelector(
-    (state) => state.userReducer.editButtonData
-  );
-  const editButton = useSelector((state) => state.userReducer.editButton);
+  const {editButtonUser, editButton , dispatch}  =  props
+  console.log(editButtonUser , editButton )
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -51,8 +50,6 @@ function CustomDrawer(props) {
   const [isGenderTouched, setIsGenderTouched] = useState(false);
 
   const [emailError, setEmailError] = useState(false);
-
-  const dispatch = useDispatch();
 
   const drawerCloseHandler = () => {
     dispatch(actions.closeDrawer());
@@ -246,4 +243,11 @@ function CustomDrawer(props) {
   );
 }
 
-export default CustomDrawer;
+const mapStateToProps = (state)=> {
+    return { editButtonData : state.userReducer.editButtonData ,
+      editButton : state.userReducer.editButton
+    }
+}
+
+
+export default connect (mapStateToProps)(CustomDrawer);

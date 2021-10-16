@@ -1,15 +1,12 @@
 import { Dialog, DialogContent, DialogContentText, DialogTitle, IconButton, Typography } from '@material-ui/core'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import actions from '../actions/userActions'
 import CloseIcon from '@mui/icons-material/Close';
+import { connect } from 'react-redux';
 
-function DialogBoxCustom() {
-
-    const isDialogOpen = useSelector(state => state.userReducer.isDialogOpen)
-    const dispatch = useDispatch()
-
-    const editData = useSelector(state => state.userReducer.editData)
+function DialogBoxCustom(props) {
+  
+    const {isDialogOpen ,editData ,dispatch} = props
     const dialogCloseButtonHandler = () => {
         dispatch( actions.closeDialogBox() )
     }
@@ -37,4 +34,13 @@ function DialogBoxCustom() {
     )
 }
 
-export default DialogBoxCustom
+
+const mapStateToProps = (state)=> {
+  return{ 
+    isDialogOpen:  state.userReducer.isDialogOpen,
+    editData : state.userReducer.editData
+
+  }
+}
+
+export default connect(mapStateToProps) (DialogBoxCustom)

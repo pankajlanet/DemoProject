@@ -1,13 +1,14 @@
 import React from 'react'
 import { AppBar, Button, Typography } from '@material-ui/core'
 import CustomDrawer from './CustomDrawer'
-import { useDispatch, useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import actions from '../actions/userActions'
 import CustomDrawerFormik from './CustomDrawerFormik'
-function Heading() {
-    const drawer = useSelector(state => state.userReducer.isDrawerOpen)
-    const dispatch = useDispatch()
+function Heading(props) {
+    const {drawer} = props
+    const {dispatch} =  props
     
+
     
     const addUserHandler = ()=> 
     {
@@ -37,4 +38,9 @@ function Heading() {
     )
 }
 
-export default Heading
+const mapStateToProps = (state)=> {
+
+    return { drawer :  state.userReducer.isDrawerOpen}
+}
+
+export default connect(mapStateToProps) (Heading)
